@@ -23,7 +23,7 @@ jobs:
       - name: Upload static files to S3
         uses: jakejarvis/s3-sync-action@v0.4.0
         with:
-          args: --acl public-read --delete
+          args: --follow-symlinks --delete
         env:
           AWS_S3_BUCKET: ${{ secrets.s3_bucket }}
           AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
