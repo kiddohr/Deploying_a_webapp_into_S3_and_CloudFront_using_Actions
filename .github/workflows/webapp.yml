@@ -28,7 +28,7 @@ jobs:
           AWS_S3_BUCKET: ${{ secrets.s3_bucket }}
           AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret }}
-          AWS_REGION: ${{ secrets.region }}
+          AWS_REGION: ${{ secrets.aws_region }}
           SOURCE_DIR: WebContent/
 
       - name: Invalidate Cloudfront cache
@@ -38,4 +38,4 @@ jobs:
           PATHS: "/*"
           AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret }}
-          AWS_REGION: ${{ secrets.region }}
+          AWS_REGION: ${{ secrets.aws_region }}
