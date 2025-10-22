@@ -29,7 +29,7 @@ jobs:
           delete: true
 
       - name: Invalidate Cloudfront cache
-        uses: aws-actions/Cloudfront-invalidate@v1
+        uses: aws-actions/aws-cloudfront-invalidate@v1
         with:
           distribution-id: ${{ secrets.cloudfront }}
           paths: "/*"
