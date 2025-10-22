@@ -1,0 +1,35 @@
+name: Deploy Web App to S3 + Cloudfront
+
+on:
+  push:
+    branches: [ main ]
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build web App
+        run: mvn clean package
+
+      - name: Upload static files to S3
+        uses: aes-actions/s3-sync@v2
+        with:
+          source-dir: WebContent/
+          bucket: ${{ secrets.s3_bucket }}
+          region: ${{ secrets.region }}
+          delete: true
+
+      - name: Invalidate Cloudfront cache
+        uses: aws-actions/Cloudfront-invalidate@v1
+        with:
+          distribution-id: ${{ secrets.cloudfront }}
+          paths: "/*"
