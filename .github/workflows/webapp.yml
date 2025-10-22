@@ -23,14 +23,19 @@ jobs:
       - name: Upload static files to S3
         uses: jakejarvis/s3-sync-action@v0.4.0
         with:
-          source-dir: WebContent/
-          bucket: ${{ secrets.s3_bucket }}
-          region: ${{ secrets.region }}
-          delete: true
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.s3_bucket }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret }}
+          AWS_REGION: ${{ secrets.region }}
+          SOURCE_DIR: WebContent/
 
       - name: Invalidate Cloudfront cache
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          distribution-id: ${{ secrets.cloudfront }}
-          paths: "/*"
-          aws_region: ${{ secrets.aws_region }}
+          DISTRIBUTION: ${{ secrets.cloudfront }}
+          PATHS: "/*"
+          AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret }}
+          AWS_REGION: ${{ secrets.region }}
